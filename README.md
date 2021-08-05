@@ -1,1 +1,3 @@
-# My own portfolio
+# My Portfolio
+
+I use this repository for training
