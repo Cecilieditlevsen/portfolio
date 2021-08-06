@@ -72,7 +72,6 @@ const IndexPage = () => {
     setList(newList)
   }
 
-  const example = ['cecilie', 'christoffer', 'uffe', 'phoebe']
 
   // Return JSX
   return (
