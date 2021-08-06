@@ -142,7 +142,7 @@ const IndexPage = () => {
               </ul>
 
               <div className="space-x-3 text-sm mt-auto ml-auto pt-6 text-gray-600 hidden md:block">
-                <span>Remaining2: {remainingItems}</span>
+                <span>Remaining: {remainingItems}</span>
                 <span>Completed: {completedItems}</span>
               </div>
             </>
