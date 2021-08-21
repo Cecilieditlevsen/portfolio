@@ -12,7 +12,7 @@ type ListItem = {
 }
 
 const IndexPage = () => {
-  const [value, setValue] = useState<string>('')
+  const [value, setValue] = useState<string>('') 
   const [errorMessage, setErrorMessage] = useState<string>('')
   const [list, setList] = useState<ListItem[]>([])
   const listHasItems = list.length > 0
@@ -31,12 +31,14 @@ const IndexPage = () => {
       return setErrorMessage('You need to fill out the input.')
     }
 
+    // Creates new list item with the type ListItem that declares the title, id and if its completed 
     const newItem: ListItem = {
       title: value,
       isCompleted: false,
       id: nanoid(),
     }
 
+    // Updates the "list" variable to contain the previous contents and add the new list Item 
     setList((prev) => [...prev, newItem])
 
     // After succesfull subit the input field and the error message is cleared
