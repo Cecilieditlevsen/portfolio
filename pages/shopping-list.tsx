@@ -1,18 +1,23 @@
-import { ChangeEvent, FormEvent, useState } from 'react'
+import { ChangeEvent, FormEvent, useEffect, useState } from 'react'
 import { nanoid } from 'nanoid'
 import clsx from 'clsx'
-import { ListItem } from '../components/ListItem'
+import { NewListItem } from '../components/NewListItem'
 
-type ListItem = {
+export type ListItem = {
   title: string
   isCompleted: boolean
   id: string
 }
 
+type ActiveListType = 'all' | 'completed' | 'remaining'
+
 const ShoppingList = () => {
   const [value, setValue] = useState<string>('')
   const [list, setList] = useState<ListItem[]>([])
+  const [completedList, setCompletedList] = useState<ListItem[]>([])
+  const [remainingList, setRemainingList] = useState<ListItem[]>([])
   const [hasError, setHasError] = useState(false)
+  const [activeList, setActiveList] = useState<ActiveListType>('all')
   const listHasItems = list.length > 0
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
@@ -42,6 +47,32 @@ const ShoppingList = () => {
 
     setList(newList)
   }
+
+  const handleToggle = (
+    id: ListItem['id'],
+    event: ChangeEvent<HTMLInputElement>
+  ) => {
+    const newList = list.map((item) => {
+      if (item.id === id) {
+        return {
+          ...item,
+          isCompleted: event.target.checked,
+        }
+      }
+
+      return item
+    })
+
+    setList(newList)
+  }
+
+  useEffect(() => {
+    const completedList = list.filter((item) => item.isCompleted === true)
+    const remainingList = list.filter((item) => item.isCompleted !== true)
+
+    setCompletedList(completedList)
+    setRemainingList(remainingList)
+  }, [list])
 
   return (
     <div className="bg-brand min-h-screen py-20">
@@ -73,25 +104,68 @@ const ShoppingList = () => {
 
           <div className="mt-12">
             <ul className="space-y-4">
-              {list.map(({ title, id, isCompleted }) => (
-                <li
-                  key={id}
-                  className="py-3 border flex items-center px-4 group"
-                >
-                  <div className="space-x-3">
-                    <input type="checkbox" name="basic-html" id={id} />
-                    <label htmlFor={id}>{title}</label>
-                  </div>
-
-                  <button
-                    className="border-none px-2 ml-auto opacity-0 group-hover:opacity-100 transition-opacity"
-                    onClick={() => handleOnDelete(id)}
-                  >
-                    <span aria-label="cross emoji">╳</span>
-                  </button>
-                </li>
-              ))}
+              {activeList === 'completed'
+                ? completedList.map(({ title, id, isCompleted }) => (
+                    <NewListItem
+                      key={id}
+                      id={id}
+                      isCompleted={isCompleted}
+                      title={title}
+                      handleOnDelete={handleOnDelete}
+                      handleToggle={handleToggle}
+                    />
+                  ))
+                : activeList === 'remaining'
+                ? remainingList.map(({ title, id, isCompleted }) => (
+                    <NewListItem
+                      key={id}
+                      id={id}
+                      isCompleted={isCompleted}
+                      title={title}
+                      handleOnDelete={handleOnDelete}
+                      handleToggle={handleToggle}
+                    />
+                  ))
+                : list.map(({ title, id, isCompleted }) => (
+                    <NewListItem
+                      key={id}
+                      id={id}
+                      isCompleted={isCompleted}
+                      title={title}
+                      handleOnDelete={handleOnDelete}
+                      handleToggle={handleToggle}
+                    />
+                  ))}
             </ul>
+          </div>
+
+          <div className="space-x-3 text-center text-sm mt-6">
+            <button
+              onClick={() => setActiveList('remaining')}
+              className={clsx('hover:underline', {
+                'text-purple-500 underline': activeList === 'remaining',
+              })}
+            >
+              Remaining
+            </button>
+
+            <button
+              onClick={() => setActiveList('completed')}
+              className={clsx('hover:underline', {
+                'text-purple-500 underline': activeList === 'completed',
+              })}
+            >
+              Completed
+            </button>
+
+            <button
+              onClick={() => setActiveList('all')}
+              className={clsx('hover:underline', {
+                'text-purple-500 underline': activeList === 'all',
+              })}
+            >
+              All
+            </button>
           </div>
         </div>
       </div>
