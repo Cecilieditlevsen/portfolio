@@ -18,7 +18,7 @@ const ShoppingList = () => {
   const [remainingList, setRemainingList] = useState<ListItem[]>([])
   const [hasError, setHasError] = useState(false)
   const [activeList, setActiveList] = useState<ActiveListType>('all')
-  const listHasItems = list.length > 0
+
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -115,7 +115,7 @@ const ShoppingList = () => {
                       handleToggle={handleToggle}
                     />
                   ))
-                : activeList === 'remaining'
+                : activeList === 'remai˚ning'
                 ? remainingList.map(({ title, id, isCompleted }) => (
                     <NewListItem
                       key={id}
@@ -143,7 +143,7 @@ const ShoppingList = () => {
             <button
               onClick={() => setActiveList('remaining')}
               className={clsx('hover:underline', {
-                'text-purple-500 underline': activeList === 'remaining',
+                'text-brand underline': activeList === 'remaining',
               })}
             >
               Remaining
@@ -152,7 +152,7 @@ const ShoppingList = () => {
             <button
               onClick={() => setActiveList('completed')}
               className={clsx('hover:underline', {
-                'text-purple-500 underline': activeList === 'completed',
+                'text-brand underline': activeList === 'completed',
               })}
             >
               Completed
@@ -161,7 +161,7 @@ const ShoppingList = () => {
             <button
               onClick={() => setActiveList('all')}
               className={clsx('hover:underline', {
-                'text-purple-500 underline': activeList === 'all',
+                'text-brand underline': activeList === 'all',
               })}
             >
               All
