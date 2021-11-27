@@ -115,7 +115,7 @@ const ShoppingList = () => {
                       handleToggle={handleToggle}
                     />
                   ))
-                : activeList === 'remai˚ning'
+                : activeList === 'remaining'
                 ? remainingList.map(({ title, id, isCompleted }) => (
                     <NewListItem
                       key={id}
