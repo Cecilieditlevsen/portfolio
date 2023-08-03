@@ -17,11 +17,6 @@ const IndexPage = () => {
               <a>Recipes</a>
             </Link>
           </h1>
-          <h1 className="text-xl p-8 border-2 border-solid border-black cursor-pointer">
-            <Link href="/order-here">
-              <a>Fun order app</a>
-            </Link>
-          </h1>
         </div>
       </div>
     </>
